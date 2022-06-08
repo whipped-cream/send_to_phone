@@ -9,7 +9,7 @@ def transfer(filename: str, instance: str) -> str:
     filepath = os.path.abspath(filename)
     file = open(filepath, 'rb')
 
-    upload_url = instance + filename
+    upload_url = 'https://' + instance + '/' + basename
     try:
         response = requests.put(upload_url, file)
     except:
@@ -34,33 +34,55 @@ def archive(files: list) -> str:
     tar = tarfile.open(tarpath, "w:gz")
 
     for file in files:
-        file = os.path.abspath(file)
-        tar.add(file)
+        filepath = os.path.abspath(file)
+        basename = os.path.basename(file)
+        tar.add(filepath, basename)
 
     tar.close()
 
     return tarpath
 
 
-def encrypt(files: list, key_path: str, ) -> object:
+def encrypt(file: str, key_path: str, ) -> str:
     print('TODO')
+    return file
     # do something
 
 
-def encrypt(files: list, password: str) -> object:
+def encrypt(file: str, password: str) -> str:
     print('TODO')
+    return file
     # do something
+
+
+def process_and_upload(files: list, args):
+    print('TODO')
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Utility to upload files to transfer.sh')
+    parser.add_argument('files', nargs='+', help='Files to upload')
+    parser.add_argument('-c', '--encrypt', action='store_true', help='Encrypt files before uploading')
+    parser.add_argument('-z', '--compress', action='store_true',
+                        help='Compress files before uploading. Automatically set if more than one filenames is passed')
+    parser.add_argument('--instance', help='Instance to upload file to. Defaults to transfer.sh', default='transfer.sh')
+    args = parser.parse_args()
+    return args
 
 
 if __name__ == "__main__":
-    tarpath = archive({'file1', 'file2', 'file3'})
-    url = transfer(tarpath, 'https://transfer.sh/')
-    print(url)
-    os.remove(tarpath)
+    args = parse_args()
 
-    # parser = argparse.ArgumentParser(
-    #     description='Utility to upload files to transfer.sh')
-    # parser.add_argument('files', nargs='+', help='Files to upload')
-    # parser.add_argument('-c', '--encrypt', action='store_true', help='Encrypt files before uploading')
-    # parser.add_argument('-z', '--compress', help='Compress files before uploading. Automatically set if more than one filenames is passed')
-    # args = parser.parse_args()
+    if len(args.files) > 1 or args.compress:
+        file = archive(args.files)
+    else:
+        file = args.files[0]
+
+    if args.encrypt:
+        file = encrypt(file, 'password')
+
+    download_url = transfer(file, args.instance)
+
+    print(download_url)
+
