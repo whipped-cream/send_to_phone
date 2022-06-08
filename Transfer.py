@@ -4,6 +4,7 @@ import argparse
 import tarfile
 import gzip
 
+
 def transfer(filename: str, instance: str) -> str:
     basename = os.path.basename(filename)
     filepath = os.path.abspath(filename)
@@ -55,10 +56,6 @@ def encrypt(file: str, password: str) -> str:
     # do something
 
 
-def process_and_upload(files: list, args):
-    print('TODO')
-
-
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Utility to upload files to transfer.sh')
@@ -71,9 +68,7 @@ def parse_args():
     return args
 
 
-if __name__ == "__main__":
-    args = parse_args()
-
+def process_and_upload(args) -> str:
     if len(args.files) > 1 or args.compress:
         file = archive(args.files)
     else:
@@ -83,6 +78,14 @@ if __name__ == "__main__":
         file = encrypt(file, 'password')
 
     download_url = transfer(file, args.instance)
+
+    return download_url
+
+
+if __name__ == "__main__":
+    args = parse_args()
+
+    download_url = process_and_upload(args)
 
     print(download_url)
 
