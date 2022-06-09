@@ -2,7 +2,6 @@ import requests
 import os
 import argparse
 import tarfile
-import gzip
 
 
 def transfer(filename: str, instance: str) -> str:
@@ -10,18 +9,20 @@ def transfer(filename: str, instance: str) -> str:
     filepath = os.path.abspath(filename)
     file = open(filepath, 'rb')
 
-    upload_url = 'https://' + instance + '/' + basename
+    upload_url = 'https://{0}/{1}'.format(instance, basename)
+
     try:
         response = requests.put(upload_url, file)
     except:
         print('Error: unable to transfer file')
+        response = None  # Silence warning
         exit(1)
 
     return response.text
 
 
 def archive(files: list) -> str:
-    tarname = 'temp' + str(os.getpid()) + '.tar'
+    tarname = 'temp{0}.tar'.format(str(os.getpid()))
     cache_dir = os.environ.get('XDG_CACHE_HOME')
     if cache_dir is None:
         cache_dir = '.cache'
@@ -31,26 +32,17 @@ def archive(files: list) -> str:
         if not os.path.exists(cache_dir):
             os.mkdir(cache_dir)
 
-    tarpath = cache_dir + '/' + tarname
-    tar = tarfile.open(tarpath, "w:gz")
-
-    for file in files:
-        filepath = os.path.abspath(file)
-        basename = os.path.basename(file)
-        tar.add(filepath, basename)
-
-    tar.close()
+    tarpath = '{0}/{1}'.format(cache_dir, tarname)
+    with tarfile.open(tarpath, "w:gz") as tar:
+        for file in files:
+            filepath = os.path.abspath(file)
+            basename = os.path.basename(file)
+            tar.add(filepath, basename)
 
     return tarpath
 
 
 def encrypt(file: str, key_path: str, ) -> str:
-    print('TODO')
-    return file
-    # do something
-
-
-def encrypt(file: str, password: str) -> str:
     print('TODO')
     return file
     # do something
