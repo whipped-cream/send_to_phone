@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import requests
 import os
 import argparse
@@ -52,24 +53,26 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='Utility to upload files to transfer.sh')
     parser.add_argument('files', nargs='+', help='Files to upload')
-    parser.add_argument('-c', '--encrypt', action='store_true', help='Encrypt files before uploading')
+    parser.add_argument('-c', '--encrypt', action='store_true', help='Encrypt files before uploading', default=False)
     parser.add_argument('-z', '--compress', action='store_true',
-                        help='Compress files before uploading. Automatically set if more than one filenames is passed')
+                        help='Compress files before uploading. Automatically set if more than one filename is passed',
+                        default=False)
     parser.add_argument('--instance', help='Instance to upload file to. Defaults to transfer.sh', default='transfer.sh')
     args = parser.parse_args()
     return args
 
 
-def process_and_upload(args) -> str:
-    if len(args.files) > 1 or args.compress:
-        file = archive(args.files)
+def process_and_upload(files: list, encrypt_flag: bool = False, compress_flag: bool = False,
+                       instance: str = 'transfer.sh') -> str:
+    if len(files) > 1 or compress_flag:
+        file = archive(files)
     else:
-        file = args.files[0]
+        file = files[0]
 
-    if args.encrypt:
+    if encrypt_flag:
         file = encrypt(file, 'password')
 
-    download_url = transfer(file, args.instance)
+    download_url = transfer(file, instance)
 
     return download_url
 
