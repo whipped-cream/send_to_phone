@@ -3,6 +3,7 @@ import requests
 import os
 import argparse
 import tarfile
+from yaspin import yaspin
 
 
 def transfer(filename: str, instance: str) -> str:
@@ -11,15 +12,17 @@ def transfer(filename: str, instance: str) -> str:
     file = open(filepath, 'rb')
 
     upload_url = 'https://{0}/{1}'.format(instance, basename)
+    with yaspin(text='Uploading files... ') as spinner:
+        try:
+            response = requests.put(upload_url, file)
+            spinner.ok('Done ')
+        except:
+            print('Error: unable to transfer file')
+            response = None  # Silence warning
+            spinner.fail('💥💥💥💥Failed ')
+            exit(1)
 
-    try:
-        response = requests.put(upload_url, file)
-    except:
-        print('Error: unable to transfer file')
-        response = None  # Silence warning
-        exit(1)
-
-    return response.text
+        return response.text
 
 
 def archive(files: list) -> str:

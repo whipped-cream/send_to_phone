@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import argparse
+import sys
 import requests
+from yaspin import yaspin
 
 
 def publish(topic: str, message: str, title: str = 'No title', priority: str = '3', tags=None,
@@ -9,13 +11,20 @@ def publish(topic: str, message: str, title: str = 'No title', priority: str = '
         tags = {}
     url = 'https://{0}/{1}'.format(instance, topic)
 
-    requests.post(url,
-                  data=message,
-                  headers={
-                      "Title": title,
-                      "Priority": str(priority),
-                      "Tags": ','.join('{}'.format(tag) for tag in tags)
-                  })
+    with yaspin(text='Sending notification... ') as spinner:
+        try:
+            requests.post(url,
+                          data=message,
+                          headers={
+                              "Title": title,
+                              "Priority": str(priority),
+                              "Tags": ','.join('{}'.format(tag) for tag in tags)
+                          })
+            spinner.ok('Done ')
+        except:
+            spinner.fail('Failed ')
+            sys.exit(1)
+
 
 
 def parse_args():
