@@ -83,7 +83,7 @@ def process_and_upload(files: list, encrypt_flag: bool = False, compress_flag: b
 if __name__ == "__main__":
     args = parse_args()
 
-    download_url = process_and_upload(args)
+    download_url = process_and_upload(args.files, args.encrypt, args.compress)
 
     print(download_url)
 
