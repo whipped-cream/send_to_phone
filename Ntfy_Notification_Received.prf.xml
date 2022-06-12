@@ -1,6 +1,7 @@
 <TaskerData sr="" dvi="1" tv="5.15.14">
 	<Profile sr="prof3" ve="2">
 		<cdate>1654851738338</cdate>
+		<clp>true</clp>
 		<edate>1654862009940</edate>
 		<flags>8</flags>
 		<id>3</id>
@@ -17,7 +18,7 @@
 	</Profile>
 	<Task sr="task5">
 		<cdate>1654861011290</cdate>
-		<edate>1654862009940</edate>
+		<edate>1654862398157</edate>
 		<id>5</id>
 		<nme>Process Ntfy Notification</nme>
 		<pri>6</pri>
@@ -37,10 +38,16 @@
 			<Int sr="arg8" val="0"/>
 			<Int sr="arg9" val="0"/>
 			<ConditionList sr="if">
+				<bool0>And</bool0>
 				<Condition sr="c0" ve="3">
 					<lhs>%message</lhs>
 					<op>4</op>
 					<rhs>https://transfer.sh/.*</rhs>
+				</Condition>
+				<Condition sr="c1" ve="3">
+					<lhs>%title</lhs>
+					<op>1</op>
+					<rhs>Files shared from: Phone</rhs>
 				</Condition>
 			</ConditionList>
 		</Action>
