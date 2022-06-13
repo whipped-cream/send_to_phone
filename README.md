@@ -48,9 +48,9 @@ Encoding=UTF-8
 [Desktop Action send_to_phone]
 Name=Send files to Phone
 Icon=stock_shared-by-me
-Exec=dbusRef=`kdialog --progressbar "Uploading files"` && send_to_phone.py milk %F && qdbus $dbusRef close
+Exec=dbusRef=`kdialog --progressbar "Uploading files"` && send_to_phone.py $NTFY_CHANNEL %F && qdbus $dbusRef close
 ```
-
+Replacing `$NTFY_CHANNEL` with your chosen Ntfy channel
 
 #### Android
 To send files from your phone to your computer a Tasker profile using the Autoshare plugin can probably be set up, but I have not yet purchased it
