@@ -3,7 +3,7 @@ from ntfy import publish
 from transfer import process_and_upload
 import argparse
 import os
-
+import platform
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -26,4 +26,4 @@ if __name__ == "__main__":
     download_url = process_and_upload(args.files, args.encrypt, args.compress, args.transfersh)
     print(download_url)
 
-    publish(args.topic, download_url, title='Files shared from: {0}'.format(os.uname().nodename), instance=args.ntfy)
+    publish(args.topic, download_url, title='Files shared from: {0}'.format(platform.node()), instance=args.ntfy)
