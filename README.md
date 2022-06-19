@@ -2,7 +2,7 @@
 A set of Python scripts to upload a file to Transfer.sh and ping a channel on Ntfy with the download link
 
 ### Sending files
-#### Desktop
+#### Linux
 Simply run the send_to_phone.py script with the topic on ntfy to publish to and the files to send
 ```
 [michael@HP ~]$ send_to_phone.py --help
@@ -51,6 +51,16 @@ Icon=stock_shared-by-me
 Exec=dbusRef=`kdialog --progressbar "Uploading files"` && send_to_phone.py $NTFY_CHANNEL %F && qdbus $dbusRef close
 ```
 Replacing `$NTFY_CHANNEL` with your chosen Ntfy channel
+
+#### Windows
+Create a batch script in the location of your venv with the contents:
+
+```send_to_phone.bat
+pushd C:\path\to\install\folder
+.\venv\Scripts\python.exe .\send_to_phone.py $NTFY_CHANNEL %*
+```
+
+and then create a shortcut to this file at `%AppData%\Microsoft\Windows\SendTo\Phone`
 
 #### Android
 To send files from your phone to your computer a Tasker profile using the Autoshare plugin can probably be set up, but I have not yet purchased it

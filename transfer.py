@@ -93,8 +93,6 @@ def process_and_upload(files: list, encrypt_flag: bool = False, compress_flag: b
 
 
 if __name__ == "__main__":
-    # download_url = process_and_upload(['Ntfy_Notification_Received.prf.xml'])
-
     args = parse_args()
 
     download_url = process_and_upload(args.files, args.encrypt, args.compress)
