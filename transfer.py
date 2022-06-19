@@ -44,12 +44,14 @@ def archive(files: list) -> str:
     if not os.path.exists(cache_dir):
         os.mkdir(cache_dir)
 
-    zippath = os.path.join(cache_dir, zipname)
-    with zipfile.ZipFile(zippath, 'w') as zip:
-        for file in files:
-            filepath = os.path.abspath(file)
-            basename = os.path.basename(file)
-            zip.write(filepath, basename)
+    with Halo(text='Uploading files...', spinner='dots') as spinner:
+        zippath = os.path.join(cache_dir, zipname)
+        with zipfile.ZipFile(zippath, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zip:
+            for file in files:
+                filepath = os.path.abspath(file)
+                basename = os.path.basename(file)
+                zip.write(filepath, basename)
+        spinner.succeed('Done ')
 
     return zippath
 
