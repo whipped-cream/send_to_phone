@@ -26,4 +26,4 @@ if __name__ == "__main__":
     download_url = process_and_upload(args.files, args.encrypt, args.compress, args.transfersh)
     print(download_url)
 
-    publish(args.topic, download_url, title='Files shared from: {0}'.format(os.uname().nodename))
+    publish(args.topic, download_url, title='Files shared from: {0}'.format(os.uname().nodename), instance=args.ntfy)

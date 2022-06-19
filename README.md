@@ -4,7 +4,7 @@ A set of Python scripts to upload a file to Transfer.sh and ping a channel on Nt
 ### Sending files
 #### Desktop
 Simply run the send_to_phone.py script with the topic on ntfy to publish to and the files to send
-```commandline
+```
 [michael@HP ~]$ send_to_phone.py --help
 usage: send_to_phone.py [-h] [-c] [-z] [--transfersh TRANSFERSH] [--ntfy NTFY] topic files [files ...]
 

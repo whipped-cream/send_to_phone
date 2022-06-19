@@ -4,6 +4,7 @@ import desktop_notifier
 import asyncio
 import requests
 import argparse
+import webbrowser
 
 
 def download_from_transfersh(message: str) -> None:
@@ -13,10 +14,11 @@ def download_from_transfersh(message: str) -> None:
     else:  # PORT: For *Nix systems
         DOWNLOAD_FOLDER = f"{os.getenv('HOME')}/Downloads/"
     open(DOWNLOAD_FOLDER + message[message.rfind('/') + 1:], 'wb').write(file_request.content)
+    # Thanks to Kieran Wood on https://stackoverflow.com/a/69052674
 
 
 def open_in_browser(url: str) -> None:
-    os.system('xdg-open ' + url)
+    webbrowser.open(url)
 
 
 async def send_notification(title: str, message: str, app_name: str) -> None:

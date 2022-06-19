@@ -26,7 +26,6 @@ def publish(topic: str, message: str, title: str = 'No title', priority: str = '
             sys.exit(1)
 
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description='Utility to publish notifications to Ntfy.sh')
     parser.add_argument('topic', help='Ntfy topic to publish message to')
