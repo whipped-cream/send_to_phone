@@ -2,10 +2,9 @@
 import requests
 import os
 from argparse import ArgumentParser
-import tarfile
 import zipfile
-from yaspin import yaspin
 import platform
+from halo import Halo
 
 
 def transfer(filename: str, instance: str) -> str:
@@ -14,10 +13,10 @@ def transfer(filename: str, instance: str) -> str:
     file = open(filepath, 'rb')
 
     upload_url = 'https://{0}/{1}'.format(instance, basename)
-    with yaspin(text='Uploading files... ') as spinner:
+    with Halo(text='Uploading files...', spinner='dots') as spinner:
         try:
             response = requests.put(upload_url, file)
-            spinner.ok('Done ')
+            spinner.succeed('Done ')
         except:  # todo: handle errors individually
             print('Error: unable to transfer file')
             response = None  # Silence warning
@@ -94,6 +93,8 @@ def process_and_upload(files: list, encrypt_flag: bool = False, compress_flag: b
 
 
 if __name__ == "__main__":
+    # download_url = process_and_upload(['Ntfy_Notification_Received.prf.xml'])
+
     args = parse_args()
 
     download_url = process_and_upload(args.files, args.encrypt, args.compress)

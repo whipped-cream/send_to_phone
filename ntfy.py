@@ -2,7 +2,7 @@
 import argparse
 import sys
 import requests
-from yaspin import yaspin
+from halo import Halo
 
 
 def publish(topic: str, message: str, title: str = 'No title', priority: str = '3', tags=None,
@@ -11,7 +11,7 @@ def publish(topic: str, message: str, title: str = 'No title', priority: str = '
         tags = {}
     url = 'https://{0}/{1}'.format(instance, topic)
 
-    with yaspin(text='Sending notification... ') as spinner:
+    with Halo(text='Sending notification...', spinner='dots') as spinner:
         try:
             requests.post(url,
                           data=message,
@@ -20,7 +20,7 @@ def publish(topic: str, message: str, title: str = 'No title', priority: str = '
                               "Priority": str(priority),
                               "Tags": ','.join('{}'.format(tag) for tag in tags)
                           })
-            spinner.ok('Done ')
+            spinner.succeed('Done ')
         except:
             spinner.fail('Failed ')
             sys.exit(1)
