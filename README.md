@@ -4,9 +4,9 @@ A set of Python scripts to upload a file to Transfer.sh and ping a channel on Nt
 ### Sending files
 #### Linux
 Simply run the send_to_phone.py script with the topic on ntfy to publish to and the files to send
-```
-[michael@HP ~]$ send_to_phone.py --help
-usage: send_to_phone.py [-h] [-c] [-z] [--transfersh TRANSFERSH] [--ntfy NTFY] topic files [files ...]
+```commandline
+[michael@HP Send_to_Phone]$ send_to_phone.py --help
+usage: send_to_phone.py [-h] [-c] [-ce EMAIL] [-z] [-cl {0,1,2,3,4,5,6,7,8,9}] [--transfersh TRANSFERSH] [--ntfy NTFY] topic files [files ...]
 
 A utility to upload files to Transfer.sh and then ping Ntfy.sh with the download link
 
@@ -17,7 +17,11 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -c, --encrypt         Encrypt files before uploading
+  -ce EMAIL, --email EMAIL
+                        Your email as associated with a key in gpg. Does nothing if --encrypt is not passed
   -z, --compress        Compress files before uploading. Automatically set if more than one filename is passed
+  -cl {0,1,2,3,4,5,6,7,8,9}, --compressionlevel {0,1,2,3,4,5,6,7,8,9}
+                        Compression level to use. Defaults to 9 if --compress is set, otherwise does nothing
   --transfersh TRANSFERSH
                         Transfer.sh instance to upload file to. Defaults to transfer.sh
   --ntfy NTFY           Ntfy instance to send the message to. Defaults to ntfy.sh

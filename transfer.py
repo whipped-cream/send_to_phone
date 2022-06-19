@@ -5,7 +5,8 @@ from argparse import ArgumentParser
 import zipfile
 import platform
 from halo import Halo
-
+import zlib
+import gnupg
 
 def transfer(filename: str, instance: str) -> str:
     basename = os.path.basename(filename)
@@ -18,15 +19,14 @@ def transfer(filename: str, instance: str) -> str:
             response = requests.put(upload_url, file)
             spinner.succeed('Done ')
         except:  # todo: handle errors individually
-            print('Error: unable to transfer file')
             response = None  # Silence warning
-            spinner.fail('💥💥💥💥Failed ')
+            spinner.fail('Failed ')
             exit(1)
 
         return response.text
 
 
-def archive(files: list) -> str:
+def archive(files: list, compressionlevel=9) -> str:
     zipname = 'temp{0}.zip'.format(str(os.getpid()))
     cache_dir: str
     if platform.system() == 'Linux':
@@ -44,9 +44,10 @@ def archive(files: list) -> str:
     if not os.path.exists(cache_dir):
         os.mkdir(cache_dir)
 
-    with Halo(text='Uploading files...', spinner='dots') as spinner:
+    with Halo(text='Creating archive...', spinner='dots') as spinner:
         zippath = os.path.join(cache_dir, zipname)
-        with zipfile.ZipFile(zippath, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zip:
+        with zipfile.ZipFile(zippath, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=compressionlevel) as zip:
+            # High compression level as the service seems to often be quite slow
             for file in files:
                 filepath = os.path.abspath(file)
                 basename = os.path.basename(file)
@@ -56,10 +57,15 @@ def archive(files: list) -> str:
     return zippath
 
 
-def encrypt(file: str, key_path: str, ) -> str:
-    print('TODO')
-    return file
-    # todo
+def encrypt(filepath: str, email: str) -> str:
+    encrypted_file_path = os.path.abspath(filepath)+'.encrypted'
+    with open(filepath, 'rb') as file:
+        gpg = gnupg.GPG()
+        encrypted_data = gpg.encrypt_file(file=file, recipients=[email], output=encrypted_file_path)
+
+    os.remove(filepath)
+
+    return encrypted_file_path
 
 
 def parse_args():
@@ -67,24 +73,33 @@ def parse_args():
         description='Utility to upload files to transfer.sh')
     parser.add_argument('files', nargs='+', help='Files to upload')
     parser.add_argument('-c', '--encrypt', action='store_true', help='Encrypt files before uploading', default=False)
+    parser.add_argument('-ce', '--email', help='Your email as associated with a key in gpg. Does nothing if --encrypt '
+                                               'is not passed')
     parser.add_argument('-z', '--compress', action='store_true',
                         help='Compress files before uploading. Automatically set if more than one filename is passed',
                         default=False)
+    parser.add_argument('-cl', '--compressionlevel', help='Compression level to use. Defaults to 9 if --compress is '
+                                                          'set, otherwise does nothing', default=9, choices={0, 1, 2,
+                                                                                                             3, 4, 5,
+                                                                                                             6, 7, 8,
+                                                                                                             9})
     parser.add_argument('--instance', help='Instance to upload file to. Defaults to transfer.sh', default='transfer.sh')
     args = parser.parse_args()
+    if args.encrypt and args.email is None:
+        parser.error('Encrypt requires an email address')
     return args
 
 
-def process_and_upload(files: list, encrypt_flag: bool = False, compress_flag: bool = False,
+def process_and_upload(files: list, encrypt_flag: bool = False, encryption_email: str=None, compress_flag: bool = False,
                        instance: str = 'transfer.sh') -> str:
-    compress_flag = len(files) > 1 or compress_flag
+    compress_flag = len(files) > 1 or compress_flag or encrypt_flag
     if compress_flag:
         file = archive(files)
     else:
         file = files[0]
 
     if encrypt_flag:
-        file = encrypt(file, 'password')
+        file = encrypt(file, encryption_email)
 
     download_url = transfer(file, instance)
 
@@ -97,6 +112,6 @@ def process_and_upload(files: list, encrypt_flag: bool = False, compress_flag: b
 if __name__ == "__main__":
     args = parse_args()
 
-    download_url = process_and_upload(args.files, args.encrypt, args.compress)
+    download_url = process_and_upload(args.files, args.encrypt, args.email, args.compress)
 
     print(download_url)
