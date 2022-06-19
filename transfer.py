@@ -3,6 +3,7 @@ import requests
 import os
 from argparse import ArgumentParser
 import tarfile
+import zipfile
 from yaspin import yaspin
 import platform
 
@@ -27,7 +28,7 @@ def transfer(filename: str, instance: str) -> str:
 
 
 def archive(files: list) -> str:
-    tarname = 'temp{0}.tar'.format(str(os.getpid()))
+    zipname = 'temp{0}.zip'.format(str(os.getpid()))
     cache_dir: str
     if platform.system() == 'Linux':
         cache_dir = os.environ.get('XDG_CACHE_HOME')
@@ -44,14 +45,14 @@ def archive(files: list) -> str:
     if not os.path.exists(cache_dir):
         os.mkdir(cache_dir)
 
-    tarpath = os.path.join(cache_dir, tarname)
-    with tarfile.open(tarpath, "w:gz") as tar:
+    zippath = os.path.join(cache_dir, zipname)
+    with zipfile.ZipFile(zippath, 'w') as zip:
         for file in files:
             filepath = os.path.abspath(file)
             basename = os.path.basename(file)
-            tar.add(filepath, basename)
+            zip.write(filepath, basename)
 
-    return tarpath
+    return zippath
 
 
 def encrypt(file: str, key_path: str, ) -> str:
