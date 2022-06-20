@@ -70,7 +70,7 @@ Encoding=UTF-8
 [Desktop Action send_to_phone]
 Name=Send files to Phone
 Icon=stock_shared-by-me
-Exec=dbusRef=`kdialog --progressbar "Uploading files"` && send_to_phone.py $NTFY_CHANNEL %F && qdbus $dbusRef close
+Exec=dbusRef=`kdialog --progressbar "Uploading files"` && send_to_phone $NTFY_CHANNEL %F && qdbus $dbusRef close
 ```
 Replacing `$NTFY_CHANNEL` with your chosen Ntfy channel
 
@@ -85,19 +85,26 @@ pushd C:\path\to\install\folder
 and then create a shortcut to this file at `%AppData%\Microsoft\Windows\SendTo\Phone`
 
 #### Android
-To send files from your phone to your computer a Tasker profile using the Autoshare plugin can probably be set up, but I have not yet purchased it
+To send files from your phone to your computer a Tasker profile using the Autoshare plugin can probably be set up, but 
+I have not yet purchased it
 
 ### Receiving notifications
 #### Desktop
-Adding this to your Ntfy config file at `/etc/ntfy/client.yml` or `~/.config/ntfy/client.yml` will send a notification via `notify-send` each time a notification is received:
-`command: 'notify-send --app-name=Ntfy::"$topic" --icon=terminal "${title:-No title}" "${message:-No message}"'`
+Adding this to your Ntfy config file at `/etc/ntfy/client.yml` or `~/.config/ntfy/client.yml` will send a notification 
+via `notify-send` each time a notification is received:
+```client.yml
+command: 'notify-send --app-name=Ntfy::"$topic" --icon=terminal "${title:-No title}" "${message:-No message}"'
+```
 
 #### Android
 The Ntfy Android app will allow you to receive Ntfy notifications on your device. Available from the 
 [Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy) or [F-Droid](https://f-droid.org/en/packages/io.heckel.ntfy)
 
-To automatically download and unarchive the files use the following Tasker [project](Send_To_Phone.prj.xml) which will wait for Ntfy notifications from the Ntfy Android app and then automatically download and (sometimes) decompress the files
-This project requires Termux, gpg installed via Termux, the Termux:Tasker plugin and requires that you create the file `.termux/tasker/decrypt` in the Termux home directory with the contents:
+To automatically download and unarchive the files use the following Tasker [project](Send_To_Phone.prj.xml) which will 
+wait for Ntfy notifications from the Ntfy Android app and then automatically download and (sometimes) decompress the files
+
+This project requires Termux, gpg installed via Termux, the Termux:Tasker plugin and requires that you create the file 
+`.termux/tasker/decrypt` in the Termux home directory with the contents:
 ```shell
 gpg -o $2 --decrypt $1
 ```
