@@ -20,7 +20,7 @@
 		<cdate>1655755292394</cdate>
 		<name>Send To Phone</name>
 		<pids>3</pids>
-		<tids>6,8,4,7,5,9</tids>
+		<tids>8,7,6,4,9,5</tids>
 		<Kid sr="Kid">
 			<launchID>9</launchID>
 			<pkg>com.whipped_cream.send_to_phone</pkg>
@@ -404,24 +404,31 @@ The &amp;lt;B&amp;gt;exit code&amp;lt;/B&amp;gt; of the command.0 often means su
 	</Task>
 	<Task sr="task9">
 		<cdate>1655757070820</cdate>
-		<edate>1655757147900</edate>
+		<edate>1655759343566</edate>
 		<id>9</id>
-		<nme>Do Nothing</nme>
+		<nme>Initial Setup</nme>
 		<Action sr="act0" ve="7">
-			<code>523</code>
-			<Str sr="arg0" ve="3">Do Nothing</Str>
-			<Str sr="arg1" ve="3">Clicking the icon does nothing</Str>
-			<Str sr="arg10" ve="3"/>
-			<Str sr="arg11" ve="3"/>
-			<Img sr="arg2" ve="2">
-				<nme>mw_content_send</nme>
-			</Img>
-			<Int sr="arg3" val="0"/>
-			<Int sr="arg4" val="0"/>
-			<Int sr="arg5" val="3"/>
-			<Int sr="arg6" val="0"/>
+			<code>377</code>
+			<Bundle sr="arg0">
+				<Vals sr="val">
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES>&lt;StringArray sr=""&gt;&lt;_array_net.dinglisch.android.tasker.RELEVANT_VARIABLES0&gt;%td_button
+Button
+The label of the button that was clicked&lt;/_array_net.dinglisch.android.tasker.RELEVANT_VARIABLES0&gt;&lt;/StringArray&gt;</net.dinglisch.android.tasker.RELEVANT_VARIABLES>
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
+				</Vals>
+			</Bundle>
+			<Str sr="arg1" ve="3">Initial setup</Str>
+			<Str sr="arg2" ve="3">To use this app the Ntfy app needs to first be installed and some topic subscribed to
+
+The Termux app and Termux:Tasker apps also need to be installed
+
+If you have those then copy this command and paste it into the terminal to finish the setup: curl https://raw.githubusercontent.com/whipped-cream/send_to_phone/master/setup.sh | bash</Str>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+			<Str sr="arg5" ve="3"/>
+			<Int sr="arg6" val="30"/>
 			<Int sr="arg7" val="0"/>
-			<Int sr="arg8" val="0"/>
+			<Str sr="arg8" ve="3"/>
 			<Str sr="arg9" ve="3"/>
 		</Action>
 	</Task>

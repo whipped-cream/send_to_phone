@@ -27,13 +27,31 @@ options:
   --ntfy NTFY           Ntfy instance to send the message to. Defaults to ntfy.sh
   ```
 
-It may be worth editing the first line of the files to run in a venv. For example, for a venv in `/opt/send_to_phone/venv/` replace the first line of each of the python files with:
+To install these scripts to your path, create a directory to serve as the install directory and location of the venv,
+`/opt/send_to_phone/` for example. Download the scripts to this folder and create a venv, perhaps in `/opt/send_to_phone/venv`. 
+Create the environment variable `$SEND_TO_PHONE_INSTALL_DIR` in the usual way to point to this location. 
 
-`#!/opt/send_to_phone/venv/bin/python`. 
+Then, create the files `transfer`, `ntfy`, and `send_to_phone` somewhere in your `$PATH` with the contents respectively:
+```transfer
+#!/bin/bash
+install_dir=${SEND_TO_PHONE_INSTALL_DIR-/opt/send_to_phone}
 
-Alternatively a simple shell wrapper can be created that runs the scripts and does not require updating the scripts each time the scripts get updated.
+$install_dir/venv/bin/python $install_dir/transfer.py "$@"
+```
 
-Placing the scripts anywhere in your $PATH will allow them to be run from anywhere, preferably `/usr/local/bin/`
+```ntfy
+#!/bin/bash
+install_dir=${SEND_TO_PHONE_INSTALL_DIR-/opt/send_to_phone}
+
+$install_dir/venv/bin/python $install_dir/ntfy.py "$@"
+```
+
+```send_to_phone
+#!/bin/bash
+install_dir=${SEND_TO_PHONE_INSTALL_DIR-/opt/send_to_phone}
+
+$install_dir/venv/bin/python $install_dir/send_to_phone.py "$@"
+```
 
 ##### KDE
 If you use KDE you can add a ServiceMenu so that the action will appear in some context menus.
@@ -78,7 +96,7 @@ Adding this to your Ntfy config file at `/etc/ntfy/client.yml` or `~/.config/ntf
 The Ntfy Android app will allow you to receive Ntfy notifications on your device. Available from the 
 [Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy) or [F-Droid](https://f-droid.org/en/packages/io.heckel.ntfy)
 
-To automatically download and unarchive the files use the following Tasker [project](send_to_phone.prj.xml) which will wait for Ntfy notifications from the Ntfy Android app and then automatically download and (sometimes) decompress the files
+To automatically download and unarchive the files use the following Tasker [project](Send_To_Phone.prj.xml) which will wait for Ntfy notifications from the Ntfy Android app and then automatically download and (sometimes) decompress the files
 This project requires Termux, gpg installed via Termux, the Termux:Tasker plugin and requires that you create the file `.termux/tasker/decrypt` in the Termux home directory with the contents:
 ```shell
 gpg -o $2 --decrypt $1
