@@ -1,13 +1,46 @@
 <TaskerData sr="" dvi="1" tv="5.15.14">
+	<Profile sr="prof3" ve="2">
+		<cdate>1654851738338</cdate>
+		<clp>true</clp>
+		<edate>1655753061940</edate>
+		<flags>8</flags>
+		<id>3</id>
+		<mid0>5</mid0>
+		<nme>Ntfy Notification Received</nme>
+		<Event sr="con0" ve="2">
+			<code>599</code>
+			<Str sr="arg0" ve="3">io.heckel.ntfy.MESSAGE_RECEIVED</Str>
+			<Int sr="arg1" val="1"/>
+			<Int sr="arg2" val="1"/>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+		</Event>
+	</Profile>
+	<Project sr="proj0" ve="2">
+		<cdate>1655755292394</cdate>
+		<name>Send To Phone</name>
+		<pids>3</pids>
+		<tids>6,8,4,7,5,9</tids>
+		<Kid sr="Kid">
+			<launchID>9</launchID>
+			<pkg>com.whipped_cream.send_to_phone</pkg>
+			<vTarg>29</vTarg>
+			<vnme>1.0</vnme>
+			<vnum>3</vnum>
+		</Kid>
+		<Img sr="icon" ve="2">
+			<nme>mw_communication_screen_share</nme>
+		</Img>
+	</Project>
 	<Task sr="task4">
 		<cdate>1654851753338</cdate>
-		<edate>1655678651381</edate>
+		<edate>1655756758886</edate>
 		<id>4</id>
-		<nme>Transfer.sh: Download and Unzip</nme>
+		<nme>Transfer.sh Handler</nme>
 		<pri>6</pri>
 		<Action sr="act0" ve="7">
 			<code>547</code>
-			<Str sr="arg0" ve="3">%filename</Str>
+			<Str sr="arg0" ve="3">%url</Str>
 			<Str sr="arg1" ve="3">%message</Str>
 			<Int sr="arg2" val="0"/>
 			<Int sr="arg3" val="0"/>
@@ -16,6 +49,16 @@
 			<Int sr="arg6" val="1"/>
 		</Action>
 		<Action sr="act1" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%filename</Str>
+			<Str sr="arg1" ve="3">%url</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="1"/>
+		</Action>
+		<Action sr="act2" ve="7">
 			<code>598</code>
 			<Str sr="arg0" ve="3">%filename</Str>
 			<Str sr="arg1" ve="3">https://transfer.sh/.*/</Str>
@@ -26,27 +69,10 @@
 			<Int sr="arg6" val="1"/>
 			<Str sr="arg7" ve="3"/>
 		</Action>
-		<Action sr="act10" ve="7">
-			<code>406</code>
-			<Str sr="arg0" ve="3">%filepath</Str>
-			<Int sr="arg1" val="0"/>
-			<Int sr="arg2" val="0"/>
-			<Int sr="arg3" val="1"/>
-		</Action>
-		<Action sr="act2" ve="7">
-			<code>547</code>
-			<Str sr="arg0" ve="3">%filepath</Str>
-			<Str sr="arg1" ve="3">Download/Received/%filename</Str>
-			<Int sr="arg2" val="0"/>
-			<Int sr="arg3" val="0"/>
-			<Int sr="arg4" val="0"/>
-			<Int sr="arg5" val="3"/>
-			<Int sr="arg6" val="1"/>
-		</Action>
 		<Action sr="act3" ve="7">
 			<code>547</code>
-			<Str sr="arg0" ve="3">%decryptedfilename</Str>
-			<Str sr="arg1" ve="3">%filename</Str>
+			<Str sr="arg0" ve="3">%filepath</Str>
+			<Str sr="arg1" ve="3">%download_folder/%filename</Str>
 			<Int sr="arg2" val="0"/>
 			<Int sr="arg3" val="0"/>
 			<Int sr="arg4" val="0"/>
@@ -54,27 +80,137 @@
 			<Int sr="arg6" val="1"/>
 		</Action>
 		<Action sr="act4" ve="7">
-			<code>598</code>
-			<Str sr="arg0" ve="3">%decryptedfilename</Str>
-			<Str sr="arg1" ve="3">.encrypted</Str>
-			<Int sr="arg2" val="0"/>
-			<Int sr="arg3" val="0"/>
-			<Int sr="arg4" val="0"/>
-			<Str sr="arg5" ve="3"/>
-			<Int sr="arg6" val="1"/>
+			<code>130</code>
+			<Str sr="arg0" ve="3">Download File</Str>
+			<Int sr="arg1">
+				<var>%priority</var>
+			</Int>
+			<Int sr="arg10" val="1"/>
+			<Str sr="arg2" ve="3">%url</Str>
+			<Str sr="arg3" ve="3">%filepath</Str>
+			<Str sr="arg4" ve="3">%filepath</Str>
+			<Int sr="arg5" val="0"/>
+			<Int sr="arg6" val="0"/>
 			<Str sr="arg7" ve="3"/>
+			<Int sr="arg8" val="0"/>
+			<Int sr="arg9" val="0"/>
 		</Action>
 		<Action sr="act5" ve="7">
+			<code>130</code>
+			<Str sr="arg0" ve="3">Decrypt File</Str>
+			<Int sr="arg1">
+				<var>%priority</var>
+			</Int>
+			<Int sr="arg10" val="1"/>
+			<Str sr="arg2" ve="3">%filepath</Str>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3">%filepath</Str>
+			<Int sr="arg5" val="0"/>
+			<Int sr="arg6" val="0"/>
+			<Str sr="arg7" ve="3"/>
+			<Int sr="arg8" val="0"/>
+			<Int sr="arg9" val="0"/>
+			<ConditionList sr="if">
+				<Condition sr="c0" ve="3">
+					<lhs>%filename</lhs>
+					<op>4</op>
+					<rhs>.*\.encrypted</rhs>
+				</Condition>
+			</ConditionList>
+		</Action>
+		<Action sr="act6" ve="7">
+			<code>130</code>
+			<Str sr="arg0" ve="3">Uncompress</Str>
+			<Int sr="arg1">
+				<var>%priority</var>
+			</Int>
+			<Int sr="arg10" val="1"/>
+			<Str sr="arg2" ve="3">%filepath</Str>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+			<Int sr="arg5" val="0"/>
+			<Int sr="arg6" val="0"/>
+			<Str sr="arg7" ve="3"/>
+			<Int sr="arg8" val="0"/>
+			<Int sr="arg9" val="0"/>
+		</Action>
+		<ProfileVariable sr="pv0">
+			<clearout>true</clearout>
+			<exportval></exportval>
+			<immutable>true</immutable>
+			<pvci>true</pvci>
+			<pvd></pvd>
+			<pvdn></pvdn>
+			<pvid>4</pvid>
+			<pvit>t</pvit>
+			<pvn>%download_folder</pvn>
+			<pvt>d</pvt>
+			<pvv>/storage/emulated/0/Download/Received</pvv>
+			<strout>true</strout>
+		</ProfileVariable>
+	</Task>
+	<Task sr="task5">
+		<cdate>1654861011290</cdate>
+		<edate>1655756689389</edate>
+		<id>5</id>
+		<nme>Ntfy Notification Handler</nme>
+		<pri>6</pri>
+		<Action sr="act0" ve="7">
+			<code>130</code>
+			<Str sr="arg0" ve="3">Transfer.sh Handler</Str>
+			<Int sr="arg1">
+				<var>%priority</var>
+			</Int>
+			<Int sr="arg10" val="1"/>
+			<Str sr="arg2" ve="3"/>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+			<Int sr="arg5" val="0"/>
+			<Int sr="arg6" val="1"/>
+			<Str sr="arg7" ve="3"/>
+			<Int sr="arg8" val="0"/>
+			<Int sr="arg9" val="0"/>
+			<ConditionList sr="if">
+				<bool0>And</bool0>
+				<Condition sr="c0" ve="3">
+					<lhs>%message</lhs>
+					<op>4</op>
+					<rhs>https://transfer.sh/.*</rhs>
+				</Condition>
+				<Condition sr="c1" ve="3">
+					<lhs>%title</lhs>
+					<op>1</op>
+					<rhs>Files shared from: Phone</rhs>
+				</Condition>
+			</ConditionList>
+		</Action>
+	</Task>
+	<Task sr="task6">
+		<cdate>1655753209088</cdate>
+		<edate>1655754644799</edate>
+		<id>6</id>
+		<nme>Download File</nme>
+		<Action sr="act0" ve="7">
 			<code>547</code>
-			<Str sr="arg0" ve="3">%decryptedfilepath</Str>
-			<Str sr="arg1" ve="3">Download/Received/%decryptedfilename</Str>
+			<Str sr="arg0" ve="3">%url</Str>
+			<Str sr="arg1" ve="3">%par1</Str>
 			<Int sr="arg2" val="0"/>
 			<Int sr="arg3" val="0"/>
 			<Int sr="arg4" val="0"/>
 			<Int sr="arg5" val="3"/>
 			<Int sr="arg6" val="1"/>
 		</Action>
-		<Action sr="act6" ve="7">
+		<Action sr="act1" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%output_file</Str>
+			<Str sr="arg1" ve="3">%par2</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="1"/>
+		</Action>
+		<Action sr="act2" ve="7">
 			<code>339</code>
 			<Bundle sr="arg0">
 				<Vals sr="val">
@@ -96,16 +232,61 @@ The size of the response in bytes&lt;/_array_net.dinglisch.android.tasker.RELEVA
 			<Int sr="arg10" val="0"/>
 			<Int sr="arg11" val="0"/>
 			<Int sr="arg12" val="1"/>
-			<Str sr="arg2" ve="3">%message</Str>
+			<Str sr="arg2" ve="3">%url</Str>
 			<Str sr="arg3" ve="3"/>
 			<Str sr="arg4" ve="3"/>
 			<Str sr="arg5" ve="3"/>
 			<Str sr="arg6" ve="3"/>
-			<Str sr="arg7" ve="3">%filepath</Str>
+			<Str sr="arg7" ve="3">%output_file</Str>
 			<Int sr="arg8" val="32"/>
 			<Int sr="arg9" val="0"/>
 		</Action>
-		<Action sr="act7" ve="7">
+		<Action sr="act3" ve="7">
+			<code>126</code>
+			<Str sr="arg0" ve="3">%output_file</Str>
+			<Int sr="arg1" val="1"/>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+	<Task sr="task7">
+		<cdate>1655753335056</cdate>
+		<edate>1655754964342</edate>
+		<id>7</id>
+		<nme>Decrypt File</nme>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%filepath</Str>
+			<Str sr="arg1" ve="3">%par1</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="1"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%decryptedfilepath</Str>
+			<Str sr="arg1" ve="3">%filepath</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="1"/>
+		</Action>
+		<Action sr="act2" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%decryptedfilepath</Str>
+			<Str sr="arg1" ve="3">.encrypted</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Str sr="arg5" ve="3"/>
+			<Int sr="arg6" val="1"/>
+			<Str sr="arg7" ve="3"/>
+		</Action>
+		<Action sr="act3" ve="7">
 			<code>1256900802</code>
 			<Bundle sr="arg0">
 				<Vals sr="val">
@@ -165,29 +346,83 @@ The &amp;lt;B&amp;gt;exit code&amp;lt;/B&amp;gt; of the command.0 often means su
 				</Condition>
 			</ConditionList>
 		</Action>
-		<Action sr="act8" ve="7">
-			<code>476</code>
+		<Action sr="act4" ve="7">
+			<code>406</code>
+			<Str sr="arg0" ve="3">%filepath</Str>
+			<Int sr="arg1" val="0"/>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="1"/>
+		</Action>
+		<Action sr="act5" ve="7">
+			<code>126</code>
 			<Str sr="arg0" ve="3">%decryptedfilepath</Str>
+			<Int sr="arg1" val="1"/>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+	<Task sr="task8">
+		<cdate>1655753482682</cdate>
+		<edate>1655756332854</edate>
+		<id>8</id>
+		<nme>Uncompress</nme>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%filepath</Str>
+			<Str sr="arg1" ve="3">%par1</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="1"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>476</code>
+			<Str sr="arg0" ve="3">%filepath</Str>
 			<Int sr="arg1" val="1"/>
 			<ConditionList sr="if">
 				<Condition sr="c0" ve="3">
-					<lhs>%decryptedfilename</lhs>
+					<lhs>%filepath</lhs>
 					<op>4</op>
 					<rhs>.*(((\.tar)?\.gz)|(\.tgz))</rhs>
 				</Condition>
 			</ConditionList>
 		</Action>
-		<Action sr="act9" ve="7">
+		<Action sr="act2" ve="7">
 			<code>422</code>
-			<Str sr="arg0" ve="3">%decryptedfilepath</Str>
+			<Str sr="arg0" ve="3">%filepath</Str>
 			<Int sr="arg1" val="1"/>
 			<ConditionList sr="if">
 				<Condition sr="c0" ve="3">
-					<lhs>%decryptedfilename</lhs>
+					<lhs>%filepath</lhs>
 					<op>4</op>
 					<rhs>.*\.zip</rhs>
 				</Condition>
 			</ConditionList>
+		</Action>
+	</Task>
+	<Task sr="task9">
+		<cdate>1655757070820</cdate>
+		<edate>1655757147900</edate>
+		<id>9</id>
+		<nme>Do Nothing</nme>
+		<Action sr="act0" ve="7">
+			<code>523</code>
+			<Str sr="arg0" ve="3">Do Nothing</Str>
+			<Str sr="arg1" ve="3">Clicking the icon does nothing</Str>
+			<Str sr="arg10" ve="3"/>
+			<Str sr="arg11" ve="3"/>
+			<Img sr="arg2" ve="2">
+				<nme>mw_content_send</nme>
+			</Img>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="0"/>
+			<Int sr="arg7" val="0"/>
+			<Int sr="arg8" val="0"/>
+			<Str sr="arg9" ve="3"/>
 		</Action>
 	</Task>
 </TaskerData>

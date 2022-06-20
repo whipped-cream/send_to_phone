@@ -78,4 +78,10 @@ Adding this to your Ntfy config file at `/etc/ntfy/client.yml` or `~/.config/ntf
 The Ntfy Android app will allow you to receive Ntfy notifications on your device. Available from the 
 [Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy) or [F-Droid](https://f-droid.org/en/packages/io.heckel.ntfy)
 
-To automatically download and unarchive the files use the following Tasker [profile](Ntfy_Notification_Received.prf.xml) and associated [tasks](Transfer.sh__Download_and_Unzip.tsk.xml) which will wait for Ntfy notifications from the Ntfy Android app and then automatically download and (sometimes) decompress the files
+To automatically download and unarchive the files use the following Tasker [project](send_to_phone.prj.xml) which will wait for Ntfy notifications from the Ntfy Android app and then automatically download and (sometimes) decompress the files
+This project requires Termux, gpg installed via Termux, the Termux:Tasker plugin and requires that you create the file `.termux/tasker/decrypt` in the Termux home directory with the contents:
+```shell
+gpg -o $2 --decrypt $1
+```
+
+Alternatively, simply run [this](setup.sh) following script within Termux to setup everything for you
