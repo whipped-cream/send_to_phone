@@ -1,6 +1,9 @@
 # send_to_phone
 A set of Python scripts to upload a file to Transfer.sh and ping a channel on Ntfy with the download link
 
+## Note
+As for sending files to your from a nearby desktop this tool can be obsoleted by KDE Connect which can run over bluetooth. This tool may be useful for sending files from a VM to a phone or from any remote destination to any other remote destination.
+
 ### Sending files
 #### Linux
 Simply run the send_to_phone.py script with the topic on ntfy to publish to and the files to send
