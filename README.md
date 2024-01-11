@@ -2,6 +2,9 @@
 A set of Python scripts to upload a file to Transfer.sh and ping a channel on Ntfy with the download link
 
 ## Note
+The transfer.sh instance is down and it seems like it probably has been for a while. This tool now recommends that you use the transfer.whalebone.io instance.
+
+## Note 2
 As for sending files to your from a nearby desktop this tool can be obsoleted by KDE Connect which can run over bluetooth. This tool may be useful for sending files from a VM to a phone or from any remote destination to any other remote destination.
 
 ### Sending files
@@ -26,7 +29,7 @@ options:
   -cl {0,1,2,3,4,5,6,7,8,9}, --compressionlevel {0,1,2,3,4,5,6,7,8,9}
                         Compression level to use. Defaults to 9 if --compress is set, otherwise does nothing
   --transfersh TRANSFERSH
-                        Transfer.sh instance to upload file to. Defaults to transfer.sh
+                        Transfer.sh instance to upload file to. Defaults to transfer.whalebone.io
   --ntfy NTFY           Ntfy instance to send the message to. Defaults to ntfy.sh
   ```
 
