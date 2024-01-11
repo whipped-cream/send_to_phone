@@ -21,8 +21,8 @@ def parse_args():
                                                                                                              3, 4, 5,
                                                                                                              6, 7, 8,
                                                                                                              9})
-    parser.add_argument('--transfersh', help='Transfer.sh instance to upload file to. Defaults to transfer.sh',
-                        default='transfer.sh')
+    parser.add_argument('--transfersh', help='Transfer.sh instance to upload file to. Defaults to transfer.whalebone.io',
+                        default='transfer.whalebone.io')
     parser.add_argument('--ntfy', help='Ntfy instance to send the message to. Defaults to ntfy.sh', default='ntfy.sh')
     args = parser.parse_args()
     if args.encrypt and args.email is None:
